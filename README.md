@@ -1,4 +1,4 @@
-# Spring-Boot
+# tech-str
 Spring Boot sistem za upravljanje inventarom za Techno-store
 
 Ova Spring Boot aplikacija služi kao sistem za upravljanje inventarom za Techno-store, omogućavajući efikasno organizovanje i upravljanje podacima o proizvodima. Aplikacija se fokusira na tri osnovna entiteta: Product, Producer i Location, koji su međusobno povezani kako bi se osigurala potpuna funkcionalnost sistema.
