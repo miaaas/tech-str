@@ -17,10 +17,10 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-@Component //ova klasa je konverter sto uzima jwt i konverta u authentication token
+@Component
 public class JwtAuthConverter implements Converter<Jwt, AbstractAuthenticationToken> {
 
-    //helper object koji na kraj konverta inf iz jwt u role
+
   private final JwtGrantedAuthoritiesConverter jwtGrantedAuthoritiesConverter;
 
   public JwtAuthConverter() {
@@ -30,23 +30,22 @@ public class JwtAuthConverter implements Converter<Jwt, AbstractAuthenticationTo
     @SuppressWarnings("null")
     @Override
     public AbstractAuthenticationToken convert(Jwt jwt) {
-            //pravimo varijablu koja ce imati all the users granted authority - authorities
-            final Set<GrantedAuthority> authorities = Stream.concat( //strem.concat merges two streams tj. two sets of authorities in one
-            jwtGrantedAuthoritiesConverter.convert(jwt).stream(), //predifined, direktno extract role iz jwt i konverta u grantedauthority object
-            extractUserRoles(jwt).stream() //isto ko gore samo dodatne role koje smo mi zadali u nasem realmu, dole definisana
-        ).collect(Collectors.toSet()); //sve sto je gore extracted i konvertovano, spasava se u jedan set i nema duplikata
-        return new JwtAuthenticationToken(jwt, authorities); // ovo returna oboje i jwt(users identity) i set authorities(aut. assigned to user); this is checked in app's requests
+            final Set<GrantedAuthority> authorities = Stream.concat( 
+            jwtGrantedAuthoritiesConverter.convert(jwt).stream(), 
+            extractUserRoles(jwt).stream()
+        ).collect(Collectors.toSet()); 
+        return new JwtAuthenticationToken(jwt, authorities); 
     }
 
     @SuppressWarnings("unchecked")
     private Set<? extends GrantedAuthority> extractUserRoles(Jwt jwt) {
-        final Map<String, Object> resourceAccess = jwt.getClaim("resource_access"); //extractamo resource_access iz naseg jwt jer su role zadane za klijenta, ovdje saznajemo imena klijenata i sve sto oni sadrze (role)
+        final Map<String, Object> resourceAccess = jwt.getClaim("resource_access"); 
         final Map<String, Object> clientRoles = (Map<String, Object>) resourceAccess.get("myclient");
         final List<String> roles = (List<String>) clientRoles.get("roles");
 
-        if (CollectionUtils.isNotEmpty(roles)) {//konverta listu u set GrantedAuhority objects
-            return roles.stream() //svaku rolu u listi procesira
-                    .map(role -> new SimpleGrantedAuthority(role)) //za svaku rolu pravi novi objekat
+        if (CollectionUtils.isNotEmpty(roles)) {
+            return roles.stream()
+                    .map(role -> new SimpleGrantedAuthority(role))
                     .collect(Collectors.toSet());
         }
 

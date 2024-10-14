@@ -28,14 +28,14 @@ public class WebSecurityConfiguration {
         .requestMatchers(HttpMethod.POST, "/products/*", "/producers/*", "/locations/*" ).hasRole("myadmin")
         .requestMatchers(HttpMethod.PUT, "/products/*", "/producers/*", "/locations/*").hasRole("myadmin")
         .requestMatchers(HttpMethod.DELETE, "/products/*", "/producers/*", "/locations/*").hasRole("myadmin")
-        .requestMatchers(HttpMethod.GET, "/products/*", "/producers/*", "/locations/*").hasAnyRole("myadmin", "myuser")
+        .requestMatchers(HttpMethod.GET, "/products/*", "/producers/*", "/locations/*", "/testEmail/*", "/triggercrawler/*").permitAll()
         .anyRequest().permitAll();
 
       http.oauth2ResourceServer()
           .jwt()
           .jwtAuthenticationConverter(jwtAuthConverter);
 
-      http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS); //stateless zato sto je svaki request indivdualno authenticated, takodjer znaci da server ne sprema session inf o klijentu zato sve potrebe inf ima jwt token, ovima se povecava sigurnost
+      http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS); 
       return http.build();
   }
 }
