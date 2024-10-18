@@ -25,7 +25,7 @@ public class CrawlerService {
 
     private List<String> foundArticles = new ArrayList<>();
 
-    @Scheduled(fixedRate = 120000)
+    //@Scheduled(fixedRate = 120000)
     public void crawlPage() {
         logger.info("Crawling Univerzalno for iPhone articles...");
         foundArticles.clear();

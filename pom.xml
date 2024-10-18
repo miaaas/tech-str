@@ -129,8 +129,11 @@
 			<artifactId>spring-boot-starter-mail</artifactId>
 		</dependency>
 
-
-
+		<dependency>
+			<groupId>com.google.cloud</groupId>
+			<artifactId>spring-cloud-gcp-starter-pubsub</artifactId>
+			<version>5.7.0</version>
+		</dependency>
 
 
 	</dependencies>
