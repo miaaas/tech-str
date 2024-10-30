@@ -1,0 +1,4 @@
+com\practice\kafka\service\KafkaProducerService.class
+com\practice\kafka\service\KafkaConsumerService.class
+com\practice\kafka\web\MessageController.class
+com\practice\kafka\KafkaApplication.class
